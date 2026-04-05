@@ -1,0 +1,101 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+
+
+int my_strlen(char *str){
+    int i=0;
+    
+    if(str==NULL)return 0;
+
+    while (*str != '\0')
+    {
+        str++;
+        i++;
+    }
+    return i;
+}
+
+
+char *reverse(char *str){
+    if(str==NULL||*str =='\0')return NULL;
+
+    char *left = str;
+    char *right = str+my_strlen(str)-1;
+
+    while (left<right)
+    {
+        char temp=*left;
+        *left=*right;
+        *right=temp;
+
+        left++;
+        right--;
+    }
+    return str;
+}
+
+char *strncpy(char *dest,const char *src,size_t len){
+    
+    while (len>0 && *src!='0'){
+        *dest = *src;
+        dest++;
+        src++;
+        len--;
+    }
+    *dest='\0';
+}
+
+char *strncat(char *dest,const char *src,size_t total_len){
+    char *ret = dest;
+
+    while(*dest != '\0'){
+        dest++;
+    }
+
+    while (*src != '\0' && total_len>0)
+    {
+        *dest++=*src++;
+        total_len--;
+    }
+
+    *dest='\0';
+    
+    return ret;
+
+}
+
+
+char *safe_concat( char *s1, char *s2){
+    size_t len1 = my_strlen(s1);
+    size_t len2 = my_strlen(s2);
+    size_t Len = len1 + len2 + 1;
+
+    char *newstr = (char*)malloc(Len*sizeof(char));
+
+    if(newstr==NULL)return NULL;
+
+    strncpy(newstr,s1,len1);
+    strncat(newstr,s2,len2);
+
+    return newstr;
+}
+
+
+int main(){
+    char *first = "My name ";
+    char *second = "is LiuChanglin.";
+    char example[]= "Hello world";
+
+    char *concat_res = safe_concat(first,second);
+    char *reverse_res = reverse(example);
+
+    if(concat_res!=NULL){
+    printf("%s\n%s\n%d\n",concat_res,reverse_res,my_strlen(concat_res));
+
+    free(concat_res);
+    concat_res = NULL;
+
+}
+
+}
